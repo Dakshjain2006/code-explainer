@@ -3,7 +3,7 @@
 An IDE-style AI-powered tool to explain, debug, and optimize code in multiple languages.
 
 ## 🚀 Live Demo
-[Daksh2006jain.github.io/code-explainer](https://Dakshjain2006.github.io/code-explainer)
+[Dakshjain2006.github.io/code-explainer](https://Dakshjain2006.github.io/code-explainer)
 
 ## ✨ Features
 - **3 Modes:** Explain · Debug · Optimize
