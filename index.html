@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI-powered Code Explainer — paste any code and get instant explanations, debugging insights, and optimization tips powered by Claude AI." />
+  <title>CodeLens — AI Code Explainer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>" />
+</head>
+<body>
+  <!-- ══════════ Ambient Background ══════════ -->
+  <div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- ══════════ Navbar ══════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="brand-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+        </div>
+        <span class="brand-text">Code<span class="brand-accent">Lens</span></span>
+      </div>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="https://github.com" target="_blank" class="nav-link nav-link-github">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════ Hero Section ══════════ -->
+  <header class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        AI-Powered Code Analysis
+      </div>
+      <h1 class="hero-title">
+        Understand any code<br />
+        <span class="gradient-text">in seconds.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Paste your code below and let AI explain it line-by-line, find bugs, or suggest optimizations. Powered by Claude.
+      </p>
+    </div>
+  </header>
+
+  <!-- ══════════ Main App ══════════ -->
+  <main class="app-container" id="app">
+    <div class="app-grid">
+      <!-- ─── Left Panel: Input ─── -->
+      <section class="panel panel-input" id="panel-input">
+        <div class="panel-header">
+          <div class="panel-title-row">
+            <div class="panel-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <h2 class="panel-title">Input</h2>
+          </div>
+          <div class="panel-controls">
+            <select id="lang" class="lang-select" aria-label="Select language">
+              <option value="auto">Auto Detect</option>
+              <option value="python">Python</option>
+              <option value="javascript">JavaScript</option>
+              <option value="typescript">TypeScript</option>
+              <option value="java">Java</option>
+              <option value="c++">C++</option>
+              <option value="c">C</option>
+              <option value="c#">C#</option>
+              <option value="go">Go</option>
+              <option value="rust">Rust</option>
+              <option value="ruby">Ruby</option>
+              <option value="php">PHP</option>
+              <option value="swift">Swift</option>
+              <option value="kotlin">Kotlin</option>
+              <option value="sql">SQL</option>
+              <option value="html">HTML</option>
+              <option value="css">CSS</option>
+            </select>
+            <span class="line-counter" id="counter">0 lines</span>
+          </div>
+        </div>
+
+        <!-- Snippet Quick-Load -->
+        <div class="snippet-bar">
+          <span class="snippet-label">Try:</span>
+          <button class="snippet-btn" onclick="loadSnippet('binary')">Binary Search</button>
+          <button class="snippet-btn" onclick="loadSnippet('fib')">Fibonacci</button>
+          <button class="snippet-btn" onclick="loadSnippet('bubble')">Bubble Sort</button>
+          <button class="snippet-btn" onclick="loadSnippet('linked')">Linked List</button>
+        </div>
+
+        <!-- Code Editor -->
+        <div class="editor-wrap">
+          <div class="line-numbers" id="line-numbers"></div>
+          <textarea
+            id="code-input"
+            class="code-editor"
+            spellcheck="false"
+            placeholder="// Paste your code here..."
+            aria-label="Code input"
+          ></textarea>
+        </div>
+
+        <!-- Mode Selector & Analyze -->
+        <div class="action-bar">
+          <div class="mode-group">
+            <button class="mode-btn active" id="mode-explain" onclick="setMode('explain')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              Explain
+            </button>
+            <button class="mode-btn" id="mode-debug" onclick="setMode('debug')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2z"/><path d="M18 16v-5a6 6 0 0 0-12 0v5l-2 2h16l-2-2z"/></svg>
+              Debug
+            </button>
+            <button class="mode-btn" id="mode-optimize" onclick="setMode('optimize')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Optimize
+            </button>
+          </div>
+          <button class="analyze-btn" id="explain-btn" onclick="explain()">
+            <span class="analyze-btn-text">Analyze Code</span>
+            <svg class="analyze-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ─── Right Panel: Output ─── -->
+      <section class="panel panel-output" id="panel-output">
+        <div class="panel-header">
+          <div class="panel-title-row">
+            <div class="panel-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <h2 class="panel-title">Output</h2>
+          </div>
+          <div class="panel-controls">
+            <div class="out-dot" id="out-dot"></div>
+            <span class="out-status" id="out-status">Ready</span>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.35">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <p class="empty-title">No analysis yet</p>
+          <p class="empty-sub">Paste code on the left, choose a mode, and hit <strong>Analyze Code</strong>.</p>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-state" id="loading-state">
+          <div class="loader-ring">
+            <div class="ring"></div>
+          </div>
+          <p class="spin-txt" id="spin-txt">Analyzing your code…</p>
+        </div>
+
+        <!-- Error Banner -->
+        <div class="error-banner" id="error-banner"></div>
+
+        <!-- Results -->
+        <div class="result-area" id="result-area"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ══════════ Features Section ══════════ -->
+  <section class="features-section" id="features">
+    <div class="section-inner">
+      <h2 class="section-title">Why <span class="gradient-text">CodeLens</span>?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📖</div>
+          <h3>Explain Mode</h3>
+          <p>Get step-by-step breakdowns, complexity analysis, and key concepts for any code snippet.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🐛</div>
+          <h3>Debug Mode</h3>
+          <p>Instantly detect bugs, edge cases, and security issues with AI-powered static analysis.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Optimize Mode</h3>
+          <p>Find bottlenecks and get concrete suggestions to improve performance and readability.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <h3>17+ Languages</h3>
+          <p>Supports Python, JavaScript, TypeScript, Java, C++, Go, Rust, and many more.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ How It Works ══════════ -->
+  <section class="how-section" id="how-it-works">
+    <div class="section-inner">
+      <h2 class="section-title">How It <span class="gradient-text">Works</span></h2>
+      <div class="steps-row">
+        <div class="how-step">
+          <div class="how-num">1</div>
+          <h4>Paste Your Code</h4>
+          <p>Drop in any snippet or use one of the built-in examples.</p>
+        </div>
+        <div class="how-arrow">→</div>
+        <div class="how-step">
+          <div class="how-num">2</div>
+          <h4>Choose a Mode</h4>
+          <p>Select Explain, Debug, or Optimize based on what you need.</p>
+        </div>
+        <div class="how-arrow">→</div>
+        <div class="how-step">
+          <div class="how-num">3</div>
+          <h4>Get Results</h4>
+          <p>AI analyzes your code and returns detailed, structured insights.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ Footer ══════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>Built with ❤️ by <strong>Daksh Jain</strong> &middot; Powered by Claude AI</p>
+      <p class="footer-sub">© 2025 CodeLens. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
